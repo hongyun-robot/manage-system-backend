@@ -1,0 +1,4 @@
+default.etcd
+logs
+.idea
+front-api/logs

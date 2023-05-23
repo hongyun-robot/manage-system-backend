@@ -1,0 +1,72 @@
+syntax = "v1"
+
+info(
+    title: "classify"
+    desc: "type desc here"
+    author: "fortune zhang"
+    email: "1836017030@qq.com"
+    version: "1.0.0"
+)
+
+type ClassifyRespose struct {
+    Code uint16 `json:"code"`
+    Data []*ClassifyData `json:"data"`
+    Message string `json:"message"`
+}
+
+type AddClassifyReq struct {
+    Name string `json:"name"`
+    Icon string `json:"icon"`
+    ArticleIds []uint64 `json:"articleIds,optional,default=[]"`
+}
+
+type ClassifyData struct {
+    ID uint64 `json:"id"`
+    Name string `json:"name"`
+    CreateAt int64 `json:"createAt"`
+    UpdateAt int64 `json:"updateAt"`
+    Icon string `json:"icon"`
+    ArticleData []*ClassifyArticleData `json:"articleData,optional"`
+}
+
+type GetClassifyReq struct {
+    ID int64 `path:"id"`
+}
+
+type UpdateClassifyReq struct {
+    ID uint64 `path:"id"`
+    Name string `json:"name"`
+    Icon string `json:"icon"`
+    ArticlesIds []uint64 `json:"articleIds"`
+}
+
+type DeleteClassifyReq struct {
+    ID uint64 `path:"id"`
+}
+
+type ClassifyArticleData struct {
+    ID uint64 `json:"id"`
+    Title string `json:"title"`
+    Content string `json:"content"`
+    Draft bool `json:"draft"`
+    UpdateAt int64 `json:"updateAt"`
+    Status uint32 `json:"status"`
+}
+
+@server(
+    group: classify
+    prefix: /api/classify
+)
+service front-api {
+    @handler AddClassify
+    post /add (AddClassifyReq) returns (ClassifyRespose)
+
+    @handler GetClassify
+    get /:id (GetClassifyReq) returns (ClassifyRespose)
+
+    @handler UpdateClassify
+    put /:id (UpdateClassifyReq) returns (ClassifyRespose)
+
+    @handler DeleteClassify
+    delete /:id (DeleteClassifyReq) returns (ClassifyRespose)
+}

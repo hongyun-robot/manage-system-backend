@@ -1,0 +1,12 @@
+Name: article.rpc
+ListenOn: 0.0.0.0:8081
+MySQL:
+  DataSourceName: root:hongyun0808@tcp(127.0.0.1:3306)/blog?charset=utf8mb4&parseTime=True&loc=Local
+  DefaultStringSize: 256
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: article.rpc
+Log:
+  Mode: file
+  Path: logs/article

@@ -1,0 +1,62 @@
+syntax = "proto3";
+//cd .\config\rpc\classify\
+//goctl rpc protoc classify.proto --go_out=..\..\..\rpc\classify --go-grpc_out=..\..\..\rpc\classify  --zrpc_out=..\..\..\rpc\classify
+package classify_client;
+option go_package = "./classify_client";
+
+message ClassifyData {
+  uint64 id = 1;
+  string name = 2;
+  string icon = 4;
+  int64 createAt = 5;
+  int64 updateAt = 6;
+  repeated ArticleData articleData = 7;
+}
+
+message ClassifyList {
+  repeated ClassifyData classify = 1;
+}
+
+message AddClassifyRequest {
+  string name = 1;
+  string icon = 3;
+  repeated uint64 articleIds = 4;
+}
+
+message GetClassifyRequest {
+  repeated uint64 id = 1;
+}
+
+message GetAllClassifyRequest {
+//  int64 id = 1;
+}
+
+message UpdateClassifyRequest {
+  uint64 id = 1;
+  string name = 2;
+  string icon = 3;
+  repeated uint64 articleIds = 4;
+}
+
+message DeleteClassifyRequest {
+  repeated uint64 id = 1;
+}
+
+message ArticleData {
+  uint64 id = 1;
+  string title = 2;
+  string content = 3;
+  uint32 status = 4;
+  bool draft = 8;
+  int64 createAt = 5;
+  int64 updateAt = 6;
+  int64 deleteAt = 7;
+}
+
+service Classify {
+  rpc AddClassify(AddClassifyRequest) returns(ClassifyList);
+  rpc GetClassify(GetClassifyRequest) returns(ClassifyList);
+  rpc GetAllClassify(GetAllClassifyRequest) returns(ClassifyList);
+  rpc UpdateClassify(UpdateClassifyRequest) returns(ClassifyList);
+  rpc DeleteClassify(DeleteClassifyRequest) returns(ClassifyList);
+}
