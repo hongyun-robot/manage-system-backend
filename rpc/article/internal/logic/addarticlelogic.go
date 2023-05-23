@@ -34,6 +34,7 @@ func (l *AddArticleLogic) AddArticle(in *article_client.AddArticleRequest) (*art
 		Title:     in.Title,
 		Content:   in.Content,
 		Status:    in.Status,
+		Draft:     in.Draft,
 		Classifys: classifyList,
 	}
 	db := common_model.NewDbEnginClient[*models.Article](l.svcCtx.DbEngin, articleData.TableName())
@@ -74,6 +75,7 @@ func (l *AddArticleLogic) AddArticle(in *article_client.AddArticleRequest) (*art
 		Title:        articleData.Title,
 		Content:      articleData.Content,
 		Status:       articleData.Status,
+		Draft:        articleData.Draft,
 		CreateAt:     articleData.CreateAt,
 		UpdateAt:     articleData.UpdateAt,
 		ClassifyData: classifyClientData,

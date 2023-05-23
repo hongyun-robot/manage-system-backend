@@ -10,7 +10,7 @@ type Article struct {
 	UpdateAt  int64          `json:"updateAt" gorm:"autoUpdateTime:milli"`
 	DeleteAt  gorm.DeletedAt `json:"deleteAt" gorm:"index"`
 	Status    uint32         `json:"status"`
-	Draft     bool           `json:"draft" gorm:"default=true"`
+	Draft     bool           `json:"draft" gorm:"default=1"`
 	Classifys []*Classify    `gorm:"many2many:article_classifys;"`
 }
 

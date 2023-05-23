@@ -32,6 +32,7 @@ func (l *UpdateArticleLogic) UpdateArticle(in *article_client.UpdateArticleReque
 		Title:     in.Title,
 		Content:   in.Content,
 		Status:    in.Status,
+		Draft:     in.Draft,
 		Classifys: nil,
 	}
 	classifyList := make([]*models.Classify, 0, len(in.ClassifyIds))

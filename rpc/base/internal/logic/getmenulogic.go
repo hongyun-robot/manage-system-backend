@@ -28,7 +28,8 @@ func NewGetMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetMenuLo
 }
 
 // GetMenu rpc AddArticle(AddArticleRequest) returns(ArticleList);
-func (l *GetMenuLogic) GetMenu() (*base_client.MenuListResponse, error) {
+func (l *GetMenuLogic) GetMenu(in *base_client.GetMenuRequest) (*base_client.MenuListResponse, error) {
+	fmt.Println(in)
 	db := l.svcCtx.DbEngin.Session(&gorm.Session{})
 	var data []*models.Menu
 	data, err := GetAllMenu(db)
