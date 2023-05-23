@@ -1,0 +1,25 @@
+Name: front-api
+Host: 0.0.0.0
+Port: 8888
+DataSourceName: root:hongyun0808@tcp(127.0.0.1:3306)/blog?charset=utf8mb4&parseTime=True&loc=Local
+Log:
+  Mode: file
+  Path: logs/front-api
+# 基础
+BaseRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: base.rpc
+# 文章
+ArticleRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: article.rpc
+# 分类
+ClassifyRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: classify.rpc

@@ -1,0 +1,60 @@
+syntax = "v1"
+
+info(
+    title: "comment"
+    desc: "type desc here"
+    author: "fortune zhang"
+    email: "1836017030@qq.com"
+    version: "1.0.0"
+)
+
+type MenuRespose struct {
+    Code uint16 `json:"code"`
+    Data []*MenuData `json:"data"`
+    Message string `json:"message"`
+}
+
+type MenuData struct {
+    ID uint64 `json:"id,optional"`
+    ParentId *uint64  `json:"parentId,optional"`
+    Order uint32 `json:"order"`
+    Title string `json:"title"`
+    Icon string `json:"icon"`
+    Url string `json:"url"`
+    Disabled uint32 `json:"disabled"`
+    Hide bool `json:"hide"`
+    Children []*MenuData `json:"children,optional"`
+}
+
+type GetMenutReq struct {
+}
+
+type UpdateMenuReq struct {
+    Data []*MenuData `json:"data"`
+}
+
+type DeleteMenuReq struct {
+    ID uint64 `path:"id"`
+}
+
+type AddMenuReq struct {
+    Data []*MenuData `json:"data"`
+}
+
+@server(
+    group: base/menu
+    prefix: /api/base/menu
+)
+service front-api {
+    @handler GetMenu
+    get /get (GetMenutReq) returns (MenuRespose)
+
+    @handler AddMenu
+    post /add (AddMenuReq) returns (MenuRespose)
+
+    @handler UpdateMenu
+    put /update (UpdateMenuReq) returns (MenuRespose)
+
+    @handler DeleteMenu
+    delete /:id (DeleteMenuReq) returns (MenuRespose)
+}

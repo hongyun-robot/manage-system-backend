@@ -1,0 +1,41 @@
+syntax = "proto3";
+// cd .\config\rpc\base\
+//goctl rpc protoc base.proto --go_out=..\..\..\rpc\base --go-grpc_out=..\..\..\rpc\base  --zrpc_out=..\..\..\rpc\base
+
+package base_client;
+option go_package = "./base_client";
+
+message GetMenuRequest {
+
+}
+
+message DeleteMenuRequest {
+  repeated uint64 id = 1;
+}
+
+message UpdateMenuRequest {
+  repeated MenuData menuData = 1;
+}
+
+message MenuData {
+  uint64 id = 1;
+  optional uint64 parentId = 8;
+  uint32 order = 9;
+  string title = 2;
+  string icon = 3;
+  string url = 4;
+  uint32 disabled = 5;
+  bool hide = 6;
+  repeated MenuData children = 7;
+}
+
+message MenuListResponse {
+  repeated MenuData menuData = 1;
+}
+
+service Base {
+  rpc AddMenu(MenuListResponse) returns(MenuListResponse);
+  rpc GetMenu(GetMenuRequest) returns(MenuListResponse);
+  rpc UpdateMenu(UpdateMenuRequest) returns(MenuListResponse);
+  rpc DeleteMenu(DeleteMenuRequest) returns(MenuListResponse);
+}
