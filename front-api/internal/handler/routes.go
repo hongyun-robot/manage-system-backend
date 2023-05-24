@@ -52,6 +52,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: article.GetArticleHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodGet,
+				Path:    "/getarticle",
+				Handler: article.GetArticleByPagingHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPut,
 				Path:    "/:id",
 				Handler: article.UpdateArticleHandler(serverCtx),

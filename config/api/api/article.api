@@ -17,10 +17,10 @@ type ArticleRespose struct {
 }
 
 type AddArticleReq struct {
-    Title    string `json:"title"`
-    Content  string `json:"content"`
-    Status   uint32   `json:"status"`
-    Draft   bool   `json:"draft,default=1"`
+    Title string `json:"title"`
+    Content string `json:"content"`
+    Status uint32 `json:"status"`
+    Draft bool `json:"draft,default=1"`
     ClassifyIds []uint64 `json:"classifyIds,optional,default=[]"`
 }
 
@@ -28,12 +28,18 @@ type GetArticleReq {
     ID uint64 `path:"id"`
 }
 
+type GetArticleByPagingReq {
+    PageSize uint32 `form:"pageSize"`
+    PageNum uint32 `form:"pageNum"`
+    Draft *bool `form:"draft,optional"`
+}
+
 type UpdateArticleReq struct {
     Id uint64 `path:"id"`
-    Title    string `json:"title"`
-    Content  string `json:"content"`
-    Status   uint32   `json:"status"`
-    Draft   bool   `json:"draft,default=1"`
+    Title string `json:"title"`
+    Content string `json:"content"`
+    Status uint32 `json:"status"`
+    Draft bool `json:"draft,default=1"`
     ClassifyIds []uint64 `json:"classifyIds,optional,default=[]"`
 }
 
@@ -42,21 +48,21 @@ type DeleteArticleReq {
 }
 
 type ArticleData struct {
-    ID       uint64  `json:"id"`
-    Title    string `json:"title"`
-    Content  string `json:"content"`
-    CreateAt int64  `json:"createAt"`
-    UpdateAt int64  `json:"updateAt"`
-    DeleteAt int64  `json:"deleteAt"`
-    Status   uint32   `json:"status"`
-    Draft   bool   `json:"draft,default=1"`
+    ID uint64 `json:"id"`
+    Title string `json:"title"`
+    Content string `json:"content"`
+    CreateAt int64 `json:"createAt"`
+    UpdateAt int64 `json:"updateAt"`
+    DeleteAt int64 `json:"deleteAt"`
+    Status uint32 `json:"status"`
+    Draft bool `json:"draft,default=1"`
     ClassifyData []*ArticleClassifyData `json:"classifyData,optional"`
 }
 
 type ArticleClassifyData struct {
-    ID         uint64   `json:"id"`
-    Name       string `json:"name"`
-    Icon       string `json:"icon"`
+    ID uint64 `json:"id"`
+    Name string `json:"name"`
+    Icon string `json:"icon"`
 }
 
 @server(
@@ -65,14 +71,17 @@ type ArticleClassifyData struct {
 )
 service front-api {
     @handler AddArticle
-    post /add(AddArticleReq) returns(ArticleRespose)
+    post /add (AddArticleReq) returns (ArticleRespose)
 
     @handler GetArticle
-    get /:id(GetArticleReq) returns(ArticleRespose)
+    get /:id (GetArticleReq) returns (ArticleRespose)
+
+    @handler GetArticleByPaging
+    get /getarticle (GetArticleByPagingReq) returns (ArticleRespose)
 
     @handler UpdateArticle
-    put /:id(UpdateArticleReq) returns(ArticleRespose)
+    put /:id (UpdateArticleReq) returns (ArticleRespose)
 
     @handler DeleteArticle
-    delete /:id(DeleteArticleReq) returns(ArticleRespose)
+    delete /:id (DeleteArticleReq) returns (ArticleRespose)
 }

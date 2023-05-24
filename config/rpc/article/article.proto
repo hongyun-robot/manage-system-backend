@@ -31,6 +31,12 @@ message GetArticleRequest {
   repeated uint64 id = 1;
 }
 
+message GetArticleByPagingRequest {
+  uint32 pageSize = 1;
+  uint32 pageNum = 2;
+  optional bool draft = 3;
+}
+
 message UpdateArticleRequest {
   uint64 id = 1;
   string title = 2;
@@ -55,6 +61,7 @@ message ClassifyData {
 service Article {
   rpc AddArticle(AddArticleRequest) returns(ArticleList);
   rpc GetArticle(GetArticleRequest) returns(ArticleList);
+  rpc GetArticleByPaging(GetArticleByPagingRequest) returns(ArticleList);
   rpc UpdateArticle(UpdateArticleRequest) returns(ArticleList);
   rpc DeleteArticle(DeleteArticleRequest) returns(ArticleList);
 }

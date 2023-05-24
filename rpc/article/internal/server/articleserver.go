@@ -32,6 +32,11 @@ func (s *ArticleServer) GetArticle(ctx context.Context, in *article_client.GetAr
 	return l.GetArticle(in)
 }
 
+func (s *ArticleServer) GetArticleByPaging(ctx context.Context, in *article_client.GetArticleByPagingRequest) (*article_client.ArticleList, error) {
+	l := logic.NewGetArticleByPagingLogic(ctx, s.svcCtx)
+	return l.GetArticleByPaging(in)
+}
+
 func (s *ArticleServer) UpdateArticle(ctx context.Context, in *article_client.UpdateArticleRequest) (*article_client.ArticleList, error) {
 	l := logic.NewUpdateArticleLogic(ctx, s.svcCtx)
 	return l.UpdateArticle(in)

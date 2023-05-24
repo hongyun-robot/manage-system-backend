@@ -22,10 +22,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Article_AddArticle_FullMethodName    = "/article_client.Article/AddArticle"
-	Article_GetArticle_FullMethodName    = "/article_client.Article/GetArticle"
-	Article_UpdateArticle_FullMethodName = "/article_client.Article/UpdateArticle"
-	Article_DeleteArticle_FullMethodName = "/article_client.Article/DeleteArticle"
+	Article_AddArticle_FullMethodName         = "/article_client.Article/AddArticle"
+	Article_GetArticle_FullMethodName         = "/article_client.Article/GetArticle"
+	Article_GetArticleByPaging_FullMethodName = "/article_client.Article/GetArticleByPaging"
+	Article_UpdateArticle_FullMethodName      = "/article_client.Article/UpdateArticle"
+	Article_DeleteArticle_FullMethodName      = "/article_client.Article/DeleteArticle"
 )
 
 // ArticleClient is the client API for Article service.
@@ -34,6 +35,7 @@ const (
 type ArticleClient interface {
 	AddArticle(ctx context.Context, in *AddArticleRequest, opts ...grpc.CallOption) (*ArticleList, error)
 	GetArticle(ctx context.Context, in *GetArticleRequest, opts ...grpc.CallOption) (*ArticleList, error)
+	GetArticleByPaging(ctx context.Context, in *GetArticleByPagingRequest, opts ...grpc.CallOption) (*ArticleList, error)
 	UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...grpc.CallOption) (*ArticleList, error)
 	DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...grpc.CallOption) (*ArticleList, error)
 }
@@ -64,6 +66,15 @@ func (c *articleClient) GetArticle(ctx context.Context, in *GetArticleRequest, o
 	return out, nil
 }
 
+func (c *articleClient) GetArticleByPaging(ctx context.Context, in *GetArticleByPagingRequest, opts ...grpc.CallOption) (*ArticleList, error) {
+	out := new(ArticleList)
+	err := c.cc.Invoke(ctx, Article_GetArticleByPaging_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *articleClient) UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...grpc.CallOption) (*ArticleList, error) {
 	out := new(ArticleList)
 	err := c.cc.Invoke(ctx, Article_UpdateArticle_FullMethodName, in, out, opts...)
@@ -88,6 +99,7 @@ func (c *articleClient) DeleteArticle(ctx context.Context, in *DeleteArticleRequ
 type ArticleServer interface {
 	AddArticle(context.Context, *AddArticleRequest) (*ArticleList, error)
 	GetArticle(context.Context, *GetArticleRequest) (*ArticleList, error)
+	GetArticleByPaging(context.Context, *GetArticleByPagingRequest) (*ArticleList, error)
 	UpdateArticle(context.Context, *UpdateArticleRequest) (*ArticleList, error)
 	DeleteArticle(context.Context, *DeleteArticleRequest) (*ArticleList, error)
 	mustEmbedUnimplementedArticleServer()
@@ -102,6 +114,9 @@ func (UnimplementedArticleServer) AddArticle(context.Context, *AddArticleRequest
 }
 func (UnimplementedArticleServer) GetArticle(context.Context, *GetArticleRequest) (*ArticleList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetArticle not implemented")
+}
+func (UnimplementedArticleServer) GetArticleByPaging(context.Context, *GetArticleByPagingRequest) (*ArticleList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetArticleByPaging not implemented")
 }
 func (UnimplementedArticleServer) UpdateArticle(context.Context, *UpdateArticleRequest) (*ArticleList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateArticle not implemented")
@@ -158,6 +173,24 @@ func _Article_GetArticle_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Article_GetArticleByPaging_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetArticleByPagingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleServer).GetArticleByPaging(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Article_GetArticleByPaging_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleServer).GetArticleByPaging(ctx, req.(*GetArticleByPagingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Article_UpdateArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateArticleRequest)
 	if err := dec(in); err != nil {
@@ -208,6 +241,10 @@ var Article_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetArticle",
 			Handler:    _Article_GetArticle_Handler,
+		},
+		{
+			MethodName: "GetArticleByPaging",
+			Handler:    _Article_GetArticleByPaging_Handler,
 		},
 		{
 			MethodName: "UpdateArticle",

@@ -44,7 +44,7 @@ type AddArticleReq struct {
 	Title       string   `json:"title"`
 	Content     string   `json:"content"`
 	Status      uint32   `json:"status"`
-	Draft       bool     `json:"draft,default=true"`
+	Draft       bool     `json:"draft,default=1"`
 	ClassifyIds []uint64 `json:"classifyIds,optional,default=[]"`
 }
 
@@ -52,12 +52,18 @@ type GetArticleReq struct {
 	ID uint64 `path:"id"`
 }
 
+type GetArticleByPagingReq struct {
+	PageSize uint32 `form:"pageSize"`
+	PageNum  uint32 `form:"pageNum"`
+	Draft    *bool  `form:"draft,optional"`
+}
+
 type UpdateArticleReq struct {
 	Id          uint64   `path:"id"`
 	Title       string   `json:"title"`
 	Content     string   `json:"content"`
 	Status      uint32   `json:"status"`
-	Draft       bool     `json:"draft,default=true"`
+	Draft       bool     `json:"draft,default=1"`
 	ClassifyIds []uint64 `json:"classifyIds,optional,default=[]"`
 }
 
@@ -73,7 +79,7 @@ type ArticleData struct {
 	UpdateAt     int64                  `json:"updateAt"`
 	DeleteAt     int64                  `json:"deleteAt"`
 	Status       uint32                 `json:"status"`
-	Draft        bool                   `json:"draft,default=true"`
+	Draft        bool                   `json:"draft,default=1"`
 	ClassifyData []*ArticleClassifyData `json:"classifyData,optional"`
 }
 
