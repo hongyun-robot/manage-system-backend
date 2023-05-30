@@ -6,8 +6,6 @@ import (
 	"bolg/rpc/models"
 	"bolg/rpc/utils"
 	"context"
-	"fmt"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -25,10 +23,9 @@ func NewGetAllClassifyLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 	}
 }
 
-func (l *GetAllClassifyLogic) GetAllClassify(in *classify_client.GetAllClassifyRequest) (*classify_client.ClassifyList, error) {
-	fmt.Println(in)
+func (l *GetAllClassifyLogic) GetAllClassify(_ *classify_client.GetAllClassifyRequest) (*classify_client.ClassifyList, error) {
 	var modelsClassifyList []*models.Classify
-	tx := l.svcCtx.DbEngin.Find(&modelsClassifyList)
+	tx := l.svcCtx.DbEngin.Preload("Articles").Find(&modelsClassifyList)
 	if tx.Error != nil {
 		l.Error(tx.Error)
 		return nil, tx.Error

@@ -26,6 +26,7 @@ func NewGetArticleByPagingLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *GetArticleByPagingLogic) GetArticleByPaging(in *article_client.GetArticleByPagingRequest) (*article_client.ArticleList, error) {
+	//fmt.Println(in.)
 	db := l.svcCtx.DbEngin.Session(&gorm.Session{})
 	var data []*models.Article
 	if in.Draft != nil {
